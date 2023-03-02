@@ -10,9 +10,9 @@ bit Flag1 = 0;				//标志位
 	* @brief	串口引脚配置	 准双向口  		  
 	* @param   	无
 	* @return   无 	
-	* Sample usage:GPIO_Config()；
+	* Sample usage:Uart_GPIO_Config()；
     */
-static void GPIO_Config()
+static void Uart_GPIO_Config()
 {
     //P30双向IO口
     P3M0 &= 0x01;   
@@ -51,7 +51,7 @@ static void Uart_Config()
     */
 void Usart_Init()	
 {
-    GPIO_Config();
+    Uart_GPIO_Config();
     Uart_Config();	
 }
 

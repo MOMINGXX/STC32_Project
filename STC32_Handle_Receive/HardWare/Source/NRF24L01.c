@@ -5,6 +5,12 @@ uint8_t NRF24L01_TX_BUF[NRF24L01_TX_PLOAD_WIDTH];		//发射数据缓存 */
 const uint8_t NRF24L01_TX_ADDRESS[NRF24L01_TX_ADR_WIDTH] = {0x00,0xc2,0xc2,0xc2,0xc2};  // 定义一个静态发送地址
 const uint8_t NRF24L01_RX_ADDRESS[NRF24L01_RX_ADR_WIDTH] = {0x00,0xc2,0xc2,0xc2,0xc2};
 
+/****
+	* @brief	NRF24L01引脚配置	  
+	* @param   	无
+	* @return   无 	
+	* Sample usage:NRF24L01_GPIO_Config();
+    */
 static void NRF24L01_GPIO_Config()
 {
 	P1M0 &= ~0x40; 
@@ -16,12 +22,25 @@ static void NRF24L01_GPIO_Config()
 	NRF24L01_CE = 1;
 }
 
+/****
+	* @brief	NRF24L01初始化 
+	* @param   	无
+	* @return   无 	
+	* Sample usage:NRF24L01_Init();
+    */
 void NRF24L01_Init()
 {
     NRF24L01_GPIO_Config();
     SPI_Init();
 }
 
+/****
+	* @brief    NRF24L01 向特定的寄存器写入数据 	  
+	* @param   	Reg: NRF24L01 的命令 + 寄存器地址
+	* @param    Data: 向寄存器写入的数据 
+    * @return   Status：寄存器的状态
+	* Sample usage:NRF24L01_WriteReg(NOP,NOP);
+    */
 static uint8_t NRF24L01_WriteReg(uint8_t Reg,uint8_t Data)
 {
     uint8_t Status;
@@ -32,6 +51,12 @@ static uint8_t NRF24L01_WriteReg(uint8_t Reg,uint8_t Data)
     return Status;
 }
 
+/****
+	* @brief    NRF24L01 向特定的寄存器读数据 	  
+	* @param   	Reg: NRF24L01 的命令 + 寄存器地址
+    * @return   Data：寄存器中的数据
+	* Sample usage:NRF24L01_ReadReg(NOP);
+    */
 static uint8_t NRF24L01_ReadReg(uint8_t Reg)
 {
     uint8_t Data;
@@ -42,6 +67,14 @@ static uint8_t NRF24L01_ReadReg(uint8_t Reg)
     return Data;
 }
 
+/****
+	* @brief    NRF24L01 向特定的寄存器写入多个数据 	  
+	* @param   	Reg: NRF24L01 的命令 + 寄存器地址
+	* @param    Buff: 用于存储要写入寄存器数据的数组
+    * @param    Len: Buff的数据长度
+    * @return   Status：寄存器的状态
+	* Sample usage:NRF24L01_WriteBuff(NOP,NOP,6);
+    */
 static uint8_t NRF24L01_WriteBuff(uint8_t Reg,uint8_t *Buff,uint8_t Len)
 {
     uint8_t Status;
@@ -56,6 +89,14 @@ static uint8_t NRF24L01_WriteBuff(uint8_t Reg,uint8_t *Buff,uint8_t Len)
     return Status;
 }
 
+/****
+	* @brief    NRF24L01 向特定的寄存器读多个数据 	  
+	* @param   	Reg: NRF24L01 的命令 + 寄存器地址
+    * @return   Buff：用于存储被读出寄存器数据的数组
+    * @param    Len: Buff的数据长度
+    * @return   Status：寄存器的状态
+	* Sample usage:NRF24L01_ReadBuff(Reg,Buff,6);
+    */
 static uint8_t NRF24L01_ReadBuff(uint8_t Reg,uint8_t *Buff,uint8_t Len)
 {
     uint8_t Status;
@@ -70,6 +111,13 @@ static uint8_t NRF24L01_ReadBuff(uint8_t Reg,uint8_t *Buff,uint8_t Len)
     return Status;
 }
 
+/****
+	* @brief    检测NRF24L01是否存在  
+	* @param   	无
+    * @return   SUCCESS   成功
+    *           ERROR     失败
+	* Sample usage:NRF24L01_Check();
+    */
 uint8_t NRF24L01_Check()
 {
 	uint8_t Tx_Buff[5] = {0xC2,0xC2,0xC2,0xC2,0xC2};

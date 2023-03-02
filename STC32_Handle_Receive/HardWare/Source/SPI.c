@@ -1,5 +1,11 @@
 #include "SPI.h"
 
+/****
+	* @brief	SPI引脚配置	  
+	* @param   	无
+	* @return   无 	
+	* Sample usage:SPI_GPIO_Config()();
+    */
 static void SPI_GPIO_Config()
 {
 	P1M1 &= ~0x38;
@@ -12,6 +18,12 @@ static void SPI_GPIO_Config()
 	SPI_SCK = 0;
 }
 
+/****
+	* @brief	SPI配置	  
+	* @param   	无
+	* @return   无 	
+	* Sample usage:SPI_Config();
+    */
 static void SPI_Config()
 {
 	SPDAT = 0x00;			//初始化SPI数据
@@ -19,6 +31,12 @@ static void SPI_Config()
     SPCTL = 0xD3;          //忽略SS-使能SPI-高位先行-主机模式-时钟空闲时为低、上升沿(第1个边沿)采样
 }
 
+/****
+	* @brief	SPI初始化  
+	* @param   	无
+	* @return   无 	
+	* Sample usage:SPI_Init();
+    */
 void SPI_Init()
 {
     SPI_GPIO_Config();
@@ -33,7 +51,7 @@ void SPI_Init()
 	* @return   ByteReceive 接收的数据 	
 	* Sample usage:SOFT_SPI_Config();
     */
-#if SOFT
+#if SOFT	//软件模拟SPI
 uint8_t SPI_Send_ReceiveByte(uint8_t Byte)
 {
 	uint8_t i, ByteReceive = 0x00;
@@ -48,7 +66,7 @@ uint8_t SPI_Send_ReceiveByte(uint8_t Byte)
 	return ByteReceive;
 }
 
-#elif HARD
+#elif HARD		//硬件SPI
 uint8_t SPI_Send_ReceiveByte(uint8_t Byte)
 {
     SPDAT = Byte;
