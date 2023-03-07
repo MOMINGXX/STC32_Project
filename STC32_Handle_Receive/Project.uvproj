@@ -374,6 +374,11 @@
               <FileType>1</FileType>
               <FilePath>.\HardWare\Source\oled.c</FilePath>
             </File>
+            <File>
+              <FileName>MP3_TF_16P.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\Source\MP3_TF_16P.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -403,6 +408,11 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>NRFDATA.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\NRFDATA.c</FilePath>
             </File>
           </Files>
         </Group>

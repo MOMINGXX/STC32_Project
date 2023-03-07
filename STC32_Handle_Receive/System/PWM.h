@@ -7,7 +7,7 @@
 #define PWMA_Prescaler		(24 - 1)
 
 #define PWMB_Period			(100 - 1)
-#define PWMB_Prescaler		(12 - 1)
+#define PWMB_Prescaler		(240 - 1)
 
 void PWMA_Config();
 void PWMB_Config();

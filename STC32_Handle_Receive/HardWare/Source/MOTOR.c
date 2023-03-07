@@ -8,11 +8,8 @@
     */
 void MOTOR_GPIO_Config()
 {
-	P2M1 &= ~0xCC;
-    P2M0 &= ~0xCC;		//P22 P23 P26 P27为准双向口
-	
-	P2M1 &= ~0x03;
-    P2M0 |= 0x03;		//P20 P21推挽输出
+	P2M1 &= ~0xCF;
+    P2M0 |= 0xCF;		//P20 P21 P22 P23 P26 P27 推挽输出
 }
 
 /****
