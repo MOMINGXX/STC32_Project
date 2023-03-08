@@ -11,8 +11,11 @@ bit Flag = 0;
     */
 static void ULTRASONIC_GPIO_Config()
 {
-	P0M1 &= ~0x0C;
-	P0M0 &= ~0x0C;			//P02 P03 为准双向口
+	P0M1 &= ~0x04;
+	P0M0 &= ~0x04;			//P02 为准双向口
+	
+	P3M1 &= ~0x08;
+	P3M0 &= ~0x08;			//P33 为准双向口
 }
 
 /****
@@ -71,22 +74,29 @@ static void Ultrasonic_Start()
 	* @return   无    	
 	* Sample usage:Ultrasonic_GetDistance();
     */
-uint16_t Ultrasonic_GetDistance()
+float Ultrasonic_GetDistance()
 {
+	uint8_t i = 0;
 	uint16_t Time = 0;
-	uint16_t Distance = 0;
-	Ultrasonic_Start();
-	Echo = 1;
-	while(!Echo);		//等待低电平结束
-	TR1 = 1;
-	while(Echo);		//等待高电平结束
-	TR1 = 0;
-	
-	Time = TH1*256+TL1;
-	TH1=0;
-	TL1=0;
-	
-	Distance = Time *1.7/100;		//距离计算  mm
+	float Distance = 0;
+	float Sum = 0;
+	while(i != 5)
+	{
+		Ultrasonic_Start();
+		Echo = 1;
+		while(!Echo);		//等待低电平结束
+		TR1 = 1;
+		while(Echo);		//等待高电平结束
+		TR1 = 0;
+		i ++;
+		Time = TH1*256+TL1;
+		TH1=0;
+		TL1=0;
+		Distance = (float)Time * 0.0008;		//距离计算  cm
+		Sum += Distance;
+	}
+	Distance = Sum / 5.0;
 	return Distance;
 }
+
 

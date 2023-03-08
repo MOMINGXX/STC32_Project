@@ -16,8 +16,8 @@ static void NRF24L01_GPIO_Config()
 	P1M0 &= ~0x40; 
 	P1M1 &= ~0x40; 		//P16为准双向口 
 
-    P3M0 &= ~0x08; 
-	P3M1 &= ~0x08; 		//P33为准双向口 
+    P0M0 &= ~0x08; 
+	P0M1 &= ~0x08; 		//P03为准双向口 
 
 	NRF24L01_CE = 1;
 }

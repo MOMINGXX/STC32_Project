@@ -4,6 +4,7 @@
 #include "NRF24L01.h"
 #include "MOTOR.h"
 #include "USART.h"
+#include "SERVO.h"
 #include "HC595.h"
 #include "oled.h"
 #include "KEY.h"
@@ -28,6 +29,9 @@ void APP_ROCKER_Mode();
 void APP_KEY_Mode();
 void APP_MP3Play_Mode();
 void Mode_Option();
+void Rocker_Key_Mode();
+void Key_Play_Mode();
+void Avoid_Mode();
 
 #endif	/*__NRFDATA_H__*/
 

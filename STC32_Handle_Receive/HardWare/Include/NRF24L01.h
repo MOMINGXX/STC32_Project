@@ -53,7 +53,7 @@
 #define NRF24L01_RX_DR		       0x40    //接收到数据中断标志位
 
 sbit NRF24L01_CE = P1^6;
-sbit NRF24L01_IRQ = P3^3;
+sbit NRF24L01_IRQ = P0^3;
 
 void NRF24L01_Init();
 void NRF24L01_RX_Mode();

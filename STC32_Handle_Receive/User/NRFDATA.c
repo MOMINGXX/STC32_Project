@@ -4,11 +4,11 @@ uint8_t ROCKER_RxBuf[10] = " 0 ";//摇杆接收数据缓冲区
 uint8_t MPU6050_RxBuf[20];	//陀螺仪接收数据缓冲区
 uint8_t KEY_RxBuf[16];		//按键接收数据缓冲区
 uint8_t Mode_TxBuf[4];		//模式接收缓冲区
-uint8_t Mode = 2;
+uint8_t Mode = 5;
 
 void Bluetooth_Mode()
 {
-	static Mode_Flag = 2;
+	static Mode_Flag = 1;
 	if(Flag3)
 	{
 		if(0x15 == RX2_BUFF[13])
@@ -79,7 +79,6 @@ void Wireless_Mode()
 void Key_Play_Mode()
 {
 	static uint8_t Volume = 20;
-	Uart_SendCMD(Specify_Volume,0,Volume);		//初始音量20
 	NRF24L01_RX_Mode();
 	Delay_ms(6);
 	if(NRF24L01_RxPacket(KEY_RxBuf) == RESET)
@@ -102,6 +101,10 @@ void Key_Play_Mode()
 		}
 		else if(9 == KEY_RxBuf[12])
 		{
+			Uart_SendCMD(Random_Broadcast,0,0);
+		}
+		else if(10 == KEY_RxBuf[13])
+		{
 			Volume ++;
 			if(Volume >= 30)
 			{
@@ -109,7 +112,7 @@ void Key_Play_Mode()
 			}
 			Uart_SendCMD(Add_Volume,0,Volume);
 		}
-		else if(10 == KEY_RxBuf[13])
+		else if(11 == KEY_RxBuf[14])
 		{
 			Volume --;
 			if(Volume >= 30)
@@ -117,10 +120,6 @@ void Key_Play_Mode()
 				Volume = 0;
 			}
 			Uart_SendCMD(Reduce_Volume,0,Volume);
-		}
-		else if(11 == KEY_RxBuf[14])
-		{
-			Uart_SendCMD(Random_Broadcast,0,0);
 		}
 	}
 }
@@ -176,13 +175,72 @@ void Rocker_Key_Mode()
 			PWMB_SetCompare5(0);
 			PWMB_SetCompare6(0);
 		}
+		PWMB_SetCompare5(PWM);
+		PWMB_SetCompare6(PWM);
 	}
 }
 
+/****
+	* @brief	避障模式
+	* @param   	无
+	* @return   无    	
+	* Sample usage:Avoid_Mode()();
+	* @note 
+    */
 void Avoid_Mode()
 {
-	
+	static float Distance_Middle = 0.0;	//中间距离
+	static float Distance_Left = 0.0;		//左侧距离
+	static float Distance_Right = 0.0;	//右侧距离
+	PWMB_SetCompare5(45);
+	PWMB_SetCompare6(45);
+	Servo_PWM = 3;			//超声波转向中间
+	Delay_ms(500);
+	Distance_Middle = Ultrasonic_GetDistance();			//检测右侧距离
+	Delay_ms(2);
+	if(Distance_Middle <= 15)
+	{
+		MOTOR_Stop();			//停止
+		
+		Servo_PWM = 1;		//超声波转向右侧
+		Delay_s(1);
+		Distance_Right = Ultrasonic_GetDistance();		//检测右侧距离
+		Delay_ms(2);
+		
+		Servo_PWM = 3;		//超声波转中间
+		Delay_s(1);
+
+		Servo_PWM = 5;		//超声波转向左侧
+		Delay_ms(1600);
+		Distance_Left = Ultrasonic_GetDistance();		//检测左侧距离
+		Delay_ms(2);
+	}
+	if(Distance_Middle > 15)		//前方距离大于15cm  前进
+	{
+		MOTOR_ForWard();
+	}
+	else if(Distance_Right >= Distance_Left && Distance_Right > 15)	
+	{
+		//若右距离大于左距离 并且大于15cm时  右转一段时间停下
+		MOTOR_Turnright();
+		Delay_s(1);
+		MOTOR_Stop();
+	}
+	else if(Distance_Right <= Distance_Left && Distance_Left > 15)		
+	{
+		//若左距离大于右距离 并且大于15cm时  左转一段时间停下
+		MOTOR_TurnLeft();
+		Delay_s(1);
+		MOTOR_Stop();
+	}
+	else 
+	{
+		MOTOR_BackWard();
+		Delay_s(1);
+		MOTOR_Stop();
+	}
 }
+
 
 void Ws2812_Mode()
 {
@@ -359,6 +417,10 @@ void Mode_Option()
 		{
 			Mode = 7;
 		}
+	}
+	else
+	{
+		Mode = 1;
 	}
 	switch(Mode)
     {
