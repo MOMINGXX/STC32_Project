@@ -379,6 +379,11 @@
               <FileType>1</FileType>
               <FilePath>.\HardWare\Source\MP3_TF_16P.c</FilePath>
             </File>
+            <File>
+              <FileName>WS2812.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HardWare\Source\WS2812.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
