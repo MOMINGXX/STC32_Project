@@ -3,4 +3,4 @@
 1、遥控 手柄
 ![手柄](https://github.com/MOMINGXX/Picture/blob/main/IMG_20230310_213929.jpg)
 2、小车
-![雨滴传感器](https://github.com/MOMINGXX/Picture/blob/main/IMG_20230310_213929.jpg)
+![小车](https://github.com/MOMINGXX/Picture/blob/main/IMG_20230310_213952.jpg)
